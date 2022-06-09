@@ -1,0 +1,21 @@
+<div class="text-center">
+  <h1>ログインページ</h1>
+</div>
+
+<div class="row">
+　<div class="form-group">
+
+<%= form_with(model: login_path, scope: :session, local: true) do |f| %>
+    
+ 　 <%= f.label :name %>
+    <%= f.text_field :name %>
+
+  <%= f.label :phone_number %>
+    <%= f.phone_number_field :phone_number %>
+
+  <%= f.submit 'ログイン' , class: 'btn btn-primary btn-block' %>
+<% end %>
+    
+   <p> 新規登録はこちら <%= link_to '新規登録はこちら', signup_path %></p>
+  </div>
+</div>
