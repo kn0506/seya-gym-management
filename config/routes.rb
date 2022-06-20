@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
 
   root to: "users#new"
-  resources :users
-  # get 'login', to: 'sessions/new'
-  # post 'login', to: 'sessions/create'
-  # delete 'login', to: 'sessions/destroy'
-
   
-  get 'signup',to: 'users#new'
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
+  
+  get 'signup' => 'users#new'
+  get 'weight' => 'users#index'
+  resources :users
 
 end

@@ -1,28 +1,11 @@
 class SessionsController < ApplicationController
   def create
-    name = params[:session][:email]
-    phone_number = params[:session][:phone]
-    if login(name, phone_number)
-      flash[:success] = 'ログインに成功しました'
-      redirect_to @user
+    user = User.find_by(name: params[:session][:name])
+    if user && user.authenticate(params[:session][:password])
+      redirect_to user
     else
-      flash[:danger] = 'ログインに失敗しました'
-      render :new
-    end
-  end
-
-  def destroy
-  end
-
-  private
-
-  def login(name, phone_number)
-    @user = User.find_by(name: name)
-    if @user && @user.authenticate()
-      session[:user_id] = @user.id
-      return true
-    else
-      return false
+      flash.now[:danger] = 'ログイン情報が間違えています。'
+      render 'new'
     end
   end
 end
