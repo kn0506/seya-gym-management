@@ -1,11 +1,30 @@
 class SessionsController < ApplicationController
+  def new
+  end
+
   def create
-    user = User.find_by(name: params[:session][:name])
-    if user && user.authenticate(params[:session][:password])
-      redirect_to user
+    name = params[:session][:name]
+    password = params[:session][:password]
+    if login(name, password)
+      flash[:success] = 'ログインに成功しました。'
+      redirect_to @user
     else
-      flash.now[:danger] = 'ログイン情報が間違えています。'
-      render 'new'
+      flash.now[:danger] = 'ログインに失敗しました。'
+      render :new
+    end
+  end
+
+  private
+
+  def login(name, password)
+    @user = User.find_by(name: name)
+    if @user && @user.authenticate(password)
+      # ログイン成功
+      session[:user_id] = @user.id
+      return true
+    else
+      # ログイン失敗
+      return false
     end
   end
 end
